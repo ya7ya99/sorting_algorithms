@@ -1,58 +1,43 @@
 #include "sort.h"
 
 /**
- * partitionArray - Partitions an array around a pivot element.
- * @array: Pointer to the array to be partitioned.
- * @lower: Lower bound of the subarray to be partitioned.
- * @uper: Upper bound of the subarray to be partitioned.
- * @size: Size of the array.
- * Return: Index of the pivot element after partitioning.
+ * partitionArray - Implements the Lomuto partition scheme for Quicksort.
+ * @array: The array to be sorted.
+ * @lower: The starting index of the subarray to be partitioned.
+ * @upper: The ending index of the subarray to be partitioned.
+ * @size: The size of the array.
  */
-size_t partitionArray(int *array, size_t lower, size_t uper, size_t size)
+void partitionArray(int *array, size_t lower, size_t upper, size_t size)
 {
-	size_t start, end;
-	int pivot = array[lower];
+	int pivot = array[upper];
 	int tmp;
-	start = lower;
-	end = uper;
+	size_t pivotindex = lower;
 
-	while (start < end)
+	while (lower < upper)
 	{
-		while (array[start] <= pivot)
-			start++;
-		while (array[end] > pivot)
-			end--;
-		if (start < end)
+		if (array[lower] <= pivot)
 		{
-			tmp = array[start];
-			array[start] = array[end];
-			array[end] = tmp;
+			tmp = array[pivotindex];
+			array[pivotindex] = array[lower];
+			array[lower] = tmp;
 			print_array(array, size);
+			pivotindex++;
 		}
+		lower++;
 	}
-	tmp = array[lower];
-	array[lower] = array[end];
-	array[end] = tmp;
+
+	tmp = array[pivotindex];
+	array[pivotindex] = array[upper];
+	array[upper] = tmp;
 	print_array(array, size);
-	return (end);
-}
 
-/**
- * sort_helper - Recursively sorts a subarray using quicksort.
- * @array: Pointer to the array to be sorted.
- * @lower: Lower bound of the subarray to be sorted.
- * @uper: Upper bound of the subarray to be sorted.
- * @size: Size of the array.
- */
-void sort_helper(int *array, size_t lower, size_t uper, size_t size)
-{
-	size_t loc;
-
-	if (lower < uper)
+	if (lower + 1 < pivotindex)
 	{
-		loc = partitionArray(array, lower, uper, size);
-		sort_helper(array, lower, loc - 1, size);
-		sort_helper(array, loc + 1, uper, size);
+		partitionArray (array, lower, pivotindex - 1, size);
+	}
+	if (pivotindex + 1 < upper)
+	{
+		partitionArray (array, pivotindex + 1, upper, size);
 	}
 }
 
@@ -63,5 +48,5 @@ void sort_helper(int *array, size_t lower, size_t uper, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-	sort_helper(array, 0, size - 1, size);
+	partitionArray (array, 0, size - 1, size);
 }
