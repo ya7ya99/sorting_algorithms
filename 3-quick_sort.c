@@ -1,52 +1,72 @@
 #include "sort.h"
 
 /**
- * partitionArray - Implements the Lomuto partition scheme for Quicksort.
- * @array: The array to be sorted.
- * @lower: The starting index of the subarray to be partitioned.
- * @upper: The ending index of the subarray to be partitioned.
- * @size: The size of the array.
+ * partition - function sort a partition
+ * @array: variable int
+ * @start: variable int
+ * @end: variable int
+ * @size: variable size
+ * Return: int
  */
-void partitionArray(int *array, size_t lower, size_t upper, size_t size)
+
+int partition(int *array, int start, int end, size_t size)
 {
-	int pivot = array[upper];
-	int tmp;
-	size_t pivotindex = lower;
+	int i = start, j, pivot = array[end], tmp;
 
-	while (lower < upper)
+	for (j = start; j <= end; j++)
 	{
-		if (array[lower] <= pivot)
+		if (array[j] < pivot)
 		{
-			tmp = array[pivotindex];
-			array[pivotindex] = array[lower];
-			array[lower] = tmp;
-			print_array(array, size);
-			pivotindex++;
+			if (array[i] != array[j])
+			{
+				tmp = array[i];
+				array[i] = array[j];
+				array[j] = tmp;
+				print_array(array, size);
+			}
+			i++;
 		}
-		lower++;
 	}
-
-	tmp = array[pivotindex];
-	array[pivotindex] = array[upper];
-	array[upper] = tmp;
-	print_array(array, size);
-
-	if (lower + 1 < pivotindex)
+	if (array[i] != array[end])
 	{
-		partitionArray (array, lower, pivotindex - 1, size);
+		tmp = array[i];
+		array[i] = array[end];
+		array[end] = tmp;
+		print_array(array, size);
 	}
-	if (pivotindex + 1 < upper)
-	{
-		partitionArray (array, pivotindex + 1, upper, size);
-	}
+	return (i);
 }
 
 /**
- * quick_sort - Sorts an array using the quicksort algorithm.
- * @array: Pointer to the array to be sorted.
- * @size: Size of the array.
+ * quicksort - function sorts an array of integers in ascending
+ * @array: variable int
+ * @start: variable int
+ * @end: variable int
+ * @size: variable size
  */
+
+void quicksort(int *array, int start, int end, size_t size)
+{
+	int pivot;
+
+	if (start >= end)
+	{
+		return;
+	}
+	pivot = partition(array, start, end, size);
+	quicksort(array, start, pivot - 1, size);
+	quicksort(array, pivot + 1, end, size);
+}
+
+/**
+ * quick_sort - function sorts an array of integers in ascending
+ * @array: variable int
+ * @size: variable size
+ */
+
 void quick_sort(int *array, size_t size)
 {
-	partitionArray (array, 0, size - 1, size);
+	if (size < 2)
+		return;
+	quicksort(array, 0, size - 1, size);
 }
