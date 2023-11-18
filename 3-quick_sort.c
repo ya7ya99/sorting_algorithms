@@ -10,28 +10,31 @@
  */
 size_t partitionArray(int *array, size_t lower, size_t uper, size_t size)
 {
-    int pivot = array[lower];
-    size_t start, end;
-    start = lower;
-    end = uper;
-    
-    while (start < end)
-    {
-        while (array[start] <= pivot)
-                   start++;
-        while (array[end] > pivot)
-                   end--;
-        if (start < end)
-        {
-          array[start] = array[end];
-          array[end] = tmp;
-          print_array(array, size);
-        }
-    }
-    array[lower] = array[end];
-    array[end] = tmp;
-    print_array(array, size);
-    return end;
+	size_t start, end;
+	int pivot = array[lower];
+	int tmp;
+	start = lower;
+	end = uper;
+
+	while (start < end)
+	{
+		while (array[start] <= pivot)
+			start++;
+		while (array[end] > pivot)
+			end--;
+		if (start < end)
+		{
+			tmp = array[start];
+			array[start] = array[end];
+			array[end] = tmp;
+			print_array(array, size);
+		}
+	}
+	tmp = array[lower];
+	array[lower] = array[end];
+	array[end] = tmp;
+	print_array(array, size);
+	return (end);
 }
 
 /**
@@ -43,15 +46,14 @@ size_t partitionArray(int *array, size_t lower, size_t uper, size_t size)
  */
 void sort_helper(int *array, size_t lower, size_t uper, size_t size)
 {
+	size_t loc;
 
-    size_t loc;
-
-    if (lower < uper)
-    {
-        loc = partitionArray(array, lower, uper, size);
-        sort_helper(array, lower, loc - 1, size);
-        sort_helper(array, loc + 1, uper, size);
-    }
+	if (lower < uper)
+	{
+		loc = partitionArray(array, lower, uper, size);
+		sort_helper(array, lower, loc - 1, size);
+		sort_helper(array, loc + 1, uper, size);
+	}
 }
 
 /**
@@ -61,7 +63,5 @@ void sort_helper(int *array, size_t lower, size_t uper, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-
-    sort_helper(array, 0, size - 1, size);
-    
+	sort_helper(array, 0, size - 1, size);
 }
