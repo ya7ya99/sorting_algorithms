@@ -35,7 +35,7 @@ int hoare_partition(int *array, int low, int high, size_t size)
 }
 
 /**
- * quicksorthoare - function to implement the Quick sort algorithm using Hoare scheme
+ * quicksorthoare - function Quick sort algorithm using Hoare scheme
  * @array: array to be sorted
  * @low: starting index of the partition
  * @high: ending index of the partition
