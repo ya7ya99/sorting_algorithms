@@ -13,7 +13,8 @@ void	merge(int	*array,	int	*left,	int	*right,	size_t	size_l,	size_t	size_r)
 {
 	size_t	i	=	0,	j	=	0,	k	=	0;
 
-	printf("Merging...\n[left]:	");
+	printf("Merging...\n");
+	printf("[left]:	");
 	print_array(left,	size_l);
 	printf("[right]:	");
 	print_array(right,	size_r);
