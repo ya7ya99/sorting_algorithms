@@ -79,7 +79,6 @@ void	merge_sort(int	*array,	size_t	size)
 	return;
 	}
 
-	/*	Copy	data	to	temporary	arrays	left[]	and	right[]	*/
 	for	(i	=	0;	i	<	middle;	i++)
 	left[i]	=	array[i];
 
@@ -91,9 +90,6 @@ void	merge_sort(int	*array,	size_t	size)
 
 	merge(array,	left,	right,	middle,	size	-	middle);
 
-	/*	Free	the	auxiliary	arrays	*/
 	free(left);
 	free(right);
 }
-
-
