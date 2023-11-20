@@ -29,6 +29,8 @@ void quick_sort_hoare(int *array, size_t size);
 void quicksorthoare(int *array, int low, int high, size_t size);
 int hoare_partition(int *array, int low, int high, size_t size);
 
+int find_max_value(int *array, size_t size);
+
 void bubble_sort(int *array, size_t size);
 void insertion_sort_list(listint_t **list);
 void selection_sort(int *array, size_t size);
