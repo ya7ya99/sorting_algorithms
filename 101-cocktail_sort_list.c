@@ -1,21 +1,49 @@
 #include "sort.h"
 
-/**
- * swap - Swaps two nodes in a doubly linked list
- * @a: First node to swap
- * @b: Second node to swap
+/*
+ * swap - Swaps two elements in a doubly linked list.
+ * @list: Pointer to the head of the linked list.
+ * @a: Pointer to the first element to be swapped.
+ * @b: Pointer to the second element to be swapped.
+ * @is_ahead: Indicates if 'a' is ahead of 'b' in the list.
  */
-void swap(listint_t *a, listint_t *b)
+void swap_node(listint_t **list, listint_t **a, listint_t **b, int is_ahead)
 {
-    if (a->prev)
-        a->prev->next = b;
-    if (b->next)
-        b->next->prev = a;
+	listint_t *tmp;
 
-    a->next = b->next;
-    b->prev = a->prev;
-    b->next = a;
-    a->prev = b;
+	if (is_ahead)
+	{
+		tmp = (*b)->next;
+		if ((*b)->prev != NULL)
+			(*b)->prev->next = tmp;
+		else
+			*list = tmp;
+		tmp->prev = (*b)->prev;
+		(*b)->next = tmp->next;
+		if (tmp->next != NULL)
+			tmp->next->prev = *b;
+		else
+			*a = *b;
+		(*b)->prev = tmp;
+		tmp->next = *b;
+	}
+	else
+	{
+		tmp = (*b)->prev;
+		if ((*b)->next != NULL)
+			(*b)->next->prev = tmp;
+		else
+			*a = tmp;
+		tmp->next = (*b)->next;
+		(*b)->prev = tmp->prev;
+		if (tmp->prev != NULL)
+			tmp->prev->next = *b;
+		else
+			*list = *b;
+		(*b)->next = tmp;
+		tmp->prev = *b;
+	}
+	*b = tmp;
 }
 
 /**
@@ -25,38 +53,33 @@ void swap(listint_t *a, listint_t *b)
  */
 void cocktail_sort_list(listint_t **list)
 {
-    int swapped;
-    listint_t *current;
+	bool swapped = false;
+	listint_t *current, *tail;
 
-    if (list == NULL || *list == NULL || (*list)->next == NULL)
-        return;
-
-    do {
-        swapped = 0;
-
-        for (current = *list; current->next != NULL; current = current->next)
-        {
-            if (current->n > current->next->n)
-            {
-                swap(current, current->next);
-                swapped = 1;
-                print_list(*list);
-            }
-        }
-
-        if (!swapped)
-            break;
-
-        swapped = 0;
-
-        for (current = current->prev; current != NULL; current = current->prev)
-        {
-            if (current->n < current->prev->n)
-            {
-                swap(current->prev, current);
-                swapped = 1;
-                print_list(*list);
-            }
-        }
-    } while (swapped);
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+	for (tail = *list; tail->next != NULL;)
+		tail = tail->next;
+	do {
+		swapped = true;
+		for (current = *list; current != tail; current = current->next)
+		{
+			if (current->n > current->next->n)
+			{
+				swap_node(list, &tail, &current, 1);
+				swapped = false;
+				print_list((const listint_t *)*list);
+			}
+		}
+		for (current = current->prev; current != *list;
+				current = current->prev)
+		{
+			if (current->n < current->prev->n)
+			{
+				swap_node(list, &tail, &current, 0);
+				print_list((const listint_t *)*list);
+				swapped = false;
+			}
+		}
+	} while (swapped == false);
 }
