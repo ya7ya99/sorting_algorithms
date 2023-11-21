@@ -2,6 +2,7 @@
 #define __SORT__
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /**
  * struct listint_s - Doubly linked list node
@@ -33,6 +34,13 @@ int hoare_partition(int *array, int low, int high, size_t size);
 int find_max_value(int *array, size_t size);
 
 void swap_node(listint_t **list, listint_t **a, listint_t **b, int is_ahead);
+
+void bitonic_swap(int *a, int *b);
+void bitonic_merge(int *array, size_t size, size_t start,
+									 size_t sq, char direction);
+void bitonic_sequence(int *array, size_t size,
+											size_t start, size_t sq, char direction);
+
 
 void bubble_sort(int *array, size_t size);
 void insertion_sort_list(listint_t **list);
