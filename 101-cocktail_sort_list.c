@@ -1,11 +1,13 @@
 #include "sort.h"
 
-/*
- * swap - Swaps two elements in a doubly linked list.
+/**
+ * swap_node - Swaps two elements in a doubly linked list.
  * @list: Pointer to the head of the linked list.
  * @a: Pointer to the first element to be swapped.
  * @b: Pointer to the second element to be swapped.
  * @is_ahead: Indicates if 'a' is ahead of 'b' in the list.
+ *
+ * Description: This function swaps two elements in a doubly linked list.
  */
 void swap_node(listint_t **list, listint_t **a, listint_t **b, int is_ahead)
 {
